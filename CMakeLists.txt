@@ -54,7 +54,7 @@ target_include_directories(${HMM_LIBRARY_NAME} PUBLIC
 )
 
 if (NOT ((TARGET gtest) AND (TARGET gtest_main)))
-    add_subdirectory(libs/gtest-1.7.0)
+    add_subdirectory(libs/gtest)
     include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 endif()
 
