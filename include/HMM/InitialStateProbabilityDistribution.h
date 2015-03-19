@@ -15,6 +15,7 @@ public:
     
     InitialStateProbabilityDistribution(int numberOfStates, double *propabilityDistribution);
     
+    int getNumberOfStates();
     double getPropability(int state);
     
 };
