@@ -2,21 +2,31 @@
 #ifndef __HMM__InitialStateProbabilityDistribution__
 #define __HMM__InitialStateProbabilityDistribution__
 
+#include <array>
+#include <assert.h>
+
+template<std::size_t numberOfStates>
 class InitialStateProbabilityDistribution {
     
 private:
     
-    int numberOfStates;
-    double *propabilityDistribution;
+    std::array<double, numberOfStates> propabilityDistribution;
     
     InitialStateProbabilityDistribution() { }
     
 public:
     
-    InitialStateProbabilityDistribution(int numberOfStates, double *propabilityDistribution);
+    InitialStateProbabilityDistribution(std::array<double, numberOfStates> propabilityDistribution) {
+        this->propabilityDistribution = propabilityDistribution;
+    }
     
-    int getNumberOfStates();
-    double getPropability(int state);
+    int getNumberOfStates() {
+        return this->propabilityDistribution.size();
+    }
+    double getPropability(int state) {
+        assert(state >= 0 && state < this->propabilityDistribution.size());
+        return this->propabilityDistribution[state];
+    }
     
 };
 
