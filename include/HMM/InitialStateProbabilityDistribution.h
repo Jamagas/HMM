@@ -20,7 +20,7 @@ public:
         this->propabilityDistribution = propabilityDistribution;
     }
     
-    int getNumberOfStates() {
+    std::size_t getNumberOfStates() {
         return this->propabilityDistribution.size();
     }
     double getPropability(int state) {
