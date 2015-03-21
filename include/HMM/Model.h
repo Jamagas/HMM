@@ -6,25 +6,38 @@
 #include "StateEmissionProbabilityDistributionMatrix.h"
 #include "InitialStateProbabilityDistribution.h"
 
+template<std::size_t numberOfStates, std::size_t numberOfObservations>
 class Model {
     
 private:
     
-    StateTransitionProbabilityDistributionMatrix *transitionDistribution;
-    StateEmissionProbabilityDistributionMatrix *emissionDistribution;
-    InitialStateProbabilityDistribution *initialStateDistribution;
+    StateTransitionProbabilityDistributionMatrix<numberOfStates> transitionDistribution;
+    StateEmissionProbabilityDistributionMatrix<numberOfStates, numberOfObservations> emissionDistribution;
+    InitialStateProbabilityDistribution<numberOfObservations> initialStateDistribution;
     
     Model() { }
     
 public:
     
-    Model(StateTransitionProbabilityDistributionMatrix *transitionDistribution,
-          StateEmissionProbabilityDistributionMatrix *emissionDistribution,
-          InitialStateProbabilityDistribution *initialStateDistribution);
+    Model<numberOfStates>(StateTransitionProbabilityDistributionMatrix<numberOfStates> transitionDistribution,
+                          StateEmissionProbabilityDistributionMatrix<numberOfStates, numberOfObservations> emissionDistribution,
+                          InitialStateProbabilityDistribution<numberOfObservations> initialStateDistribution) {
+        this->transitionDistribution = transitionDistribution;
+        this->emissionDistribution = emissionDistribution;
+        this->initialStateDistribution = initialStateDistribution;
+    }
     
-    StateTransitionProbabilityDistributionMatrix * getTransitionDistribution();
-    StateEmissionProbabilityDistributionMatrix * getEmissionDistribution();
-    InitialStateProbabilityDistribution * getInitialStateDistribution();
+    StateTransitionProbabilityDistributionMatrix<numberOfStates> getTransitionDistribution() {
+        return this->transitionDistribution;
+    }
+    
+    StateEmissionProbabilityDistributionMatrix<numberOfStates, numberOfObservations> getEmissionDistribution() {
+        return this->emissionDistribution;
+    }
+    
+    InitialStateProbabilityDistribution<numberOfStates> getInitialStateDistribution() {
+        this->initialStateDistribution;
+    }
     
 };
 
