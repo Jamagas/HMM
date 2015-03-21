@@ -25,8 +25,8 @@ public:
     }
     
     double getPropability(int startState, int endState) {
-        assert(startState >= 0 && startState < this->propabilityDistributionMatrix.size() &&
-               endState >= 0 && endState < this->propabilityDistributionMatrix.size());
+        assert(startState >= 0 && startState < getNumberOfStates() &&
+               endState >= 0 && endState < getNumberOfStates());
         return this->propabilityDistributionMatrix[startState][endState];
     }
     

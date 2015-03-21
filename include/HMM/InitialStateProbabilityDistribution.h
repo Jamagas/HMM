@@ -24,7 +24,7 @@ public:
         return this->propabilityDistribution.size();
     }
     double getPropability(int state) {
-        assert(state >= 0 && state < this->propabilityDistribution.size());
+        assert(state >= 0 && state < getNumberOfStates());
         return this->propabilityDistribution[state];
     }
     
