@@ -12,6 +12,7 @@ set(HMM_TESTS_NAME
 )
 set(HMM_TESTS_SOURCE
     InitialStateProbabilityDistributionTests.cpp
+    StateTransitionProbabilityDistributionMatrixTests.cpp
 )
 add_executable(${HMM_TESTS_NAME} ${HMM_TESTS_SOURCE})
 target_link_libraries(${HMM_TESTS_NAME} 

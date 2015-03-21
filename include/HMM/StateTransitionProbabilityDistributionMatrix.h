@@ -2,20 +2,33 @@
 #ifndef __HMM__StateTransitionProbabilityDistributionMatrix__
 #define __HMM__StateTransitionProbabilityDistributionMatrix__
 
+#include <array>
+#include <assert.h>
+
+template<std::size_t numberOfStates>
 class StateTransitionProbabilityDistributionMatrix {
 
 private:
     
-    int numberOfStates;
-    double **propabilityDistributionMatrix;
+    std::array<std::array<double, numberOfStates>, numberOfStates> propabilityDistributionMatrix;
     
     StateTransitionProbabilityDistributionMatrix() { }
     
 public:
     
-    StateTransitionProbabilityDistributionMatrix(int numberOfStates, double **propabilityDistributionMatrix);
+    StateTransitionProbabilityDistributionMatrix(std::array<std::array<double, numberOfStates>, numberOfStates> propabilityDistributionMatrix) {
+        this->propabilityDistributionMatrix = propabilityDistributionMatrix;
+    }
     
-    double getPropability(int startState, int endState);
+    std::size_t getNumberOfStates() {
+        return this->propabilityDistributionMatrix.size();
+    }
+    
+    double getPropability(int startState, int endState) {
+        assert(startState >= 0 && startState < this->propabilityDistributionMatrix.size() &&
+               endState >= 0 && endState < this->propabilityDistributionMatrix.size());
+        return this->propabilityDistributionMatrix[startState][endState];
+    }
     
 };
 
