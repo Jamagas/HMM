@@ -13,15 +13,19 @@ private:
     
     StateTransitionProbabilityDistributionMatrix<numberOfStates> transitionDistribution;
     StateEmissionProbabilityDistributionMatrix<numberOfStates, numberOfObservations> emissionDistribution;
-    InitialStateProbabilityDistribution<numberOfObservations> initialStateDistribution;
+    InitialStateProbabilityDistribution<numberOfStates> initialStateDistribution;
     
     Model() { }
     
 public:
     
-    Model<numberOfStates>(StateTransitionProbabilityDistributionMatrix<numberOfStates> transitionDistribution,
-                          StateEmissionProbabilityDistributionMatrix<numberOfStates, numberOfObservations> emissionDistribution,
-                          InitialStateProbabilityDistribution<numberOfObservations> initialStateDistribution) {
+    Model(const StateTransitionProbabilityDistributionMatrix<numberOfStates> &transitionDistribution,
+          const StateEmissionProbabilityDistributionMatrix<numberOfStates, numberOfObservations> &emissionDistribution,
+          const InitialStateProbabilityDistribution<numberOfStates> &initialStateDistribution) :
+    
+    transitionDistribution(transitionDistribution),
+    emissionDistribution(emissionDistribution),
+    initialStateDistribution(initialStateDistribution) {
         this->transitionDistribution = transitionDistribution;
         this->emissionDistribution = emissionDistribution;
         this->initialStateDistribution = initialStateDistribution;
@@ -36,7 +40,7 @@ public:
     }
     
     InitialStateProbabilityDistribution<numberOfStates> getInitialStateDistribution() {
-        this->initialStateDistribution;
+        return this->initialStateDistribution;
     }
     
 };
