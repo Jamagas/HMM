@@ -16,4 +16,4 @@ Build system is based on [CMake](http://www.cmake.org) so if you familiar with C
 ## Copyright and license
 
 Code and documentation copyright 2015 Darius Sabaliauskas and released under 
-[the MIT license](https://github.com/Jamagas/Darius/blob/master/LICENSE).
+[the MIT license](https://github.com/Jamagas/HMM/blob/master/LICENSE).
