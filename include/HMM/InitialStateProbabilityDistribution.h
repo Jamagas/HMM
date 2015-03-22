@@ -16,7 +16,7 @@ private:
     
 public:
     
-    InitialStateProbabilityDistribution(std::array<double, numberOfStates> propabilityDistribution) {
+    InitialStateProbabilityDistribution(const std::array<double, numberOfStates> &propabilityDistribution) {
         this->propabilityDistribution = propabilityDistribution;
     }
     

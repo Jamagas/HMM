@@ -16,7 +16,7 @@ private:
     
 public:
     
-    StateEmissionProbabilityDistributionMatrix(std::array<std::array<double, numberOfObservations>, numberOfStates> propabilityDistributionMatrix) {
+    StateEmissionProbabilityDistributionMatrix(const std::array<std::array<double, numberOfObservations>, numberOfStates> &propabilityDistributionMatrix) {
         this->propabilityDistributionMatrix = propabilityDistributionMatrix;
     }
     

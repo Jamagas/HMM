@@ -16,7 +16,7 @@ private:
     
 public:
     
-    StateTransitionProbabilityDistributionMatrix(std::array<std::array<double, numberOfStates>, numberOfStates> propabilityDistributionMatrix) {
+    StateTransitionProbabilityDistributionMatrix(const std::array<std::array<double, numberOfStates>, numberOfStates> &propabilityDistributionMatrix) {
         this->propabilityDistributionMatrix = propabilityDistributionMatrix;
     }
     
