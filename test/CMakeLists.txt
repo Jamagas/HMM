@@ -16,6 +16,7 @@ set(HMM_TESTS_SOURCE
     StateEmissionProbabilityDistributionMatrixTests.cpp
 
     ModelTests.cpp
+    BaumWelchAlgorithmTests.cpp
 )
 add_executable(${HMM_TESTS_NAME} ${HMM_TESTS_SOURCE})
 target_link_libraries(${HMM_TESTS_NAME} 
