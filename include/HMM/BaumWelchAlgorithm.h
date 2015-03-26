@@ -6,7 +6,7 @@
 
 template<std::size_t modelNumberOfStates, std::size_t modelNumberOfObservations, std::size_t numberOfObservations>
 std::array<std::array<double, numberOfObservations>, modelNumberOfStates> forwardAlgorithm(Model<modelNumberOfStates, modelNumberOfObservations> model,
-                                                                                                               std::array<int, numberOfObservations> observations) {
+                                                                                           std::array<int, numberOfObservations> observations) {
     std::array<std::array<double, numberOfObservations>, modelNumberOfStates> alpha = {};
     
     // Step 1
