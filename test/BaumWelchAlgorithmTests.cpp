@@ -4,7 +4,7 @@
 #include <HMM/BaumWelchAlgorithm.h>
 
 /* http://www.cs.rochester.edu/u/james/CSC248/Lec11.pdf */
-TEST (BaumWelchAlgorithmTests, Test) {
+TEST (BaumWelchAlgorithmTests, TestForwardAlgorithm) {
     std::array<double, 2> ispDistribution = {{ 0.8, 0.2 }};
     InitialStateProbabilityDistribution<2> initialDistribution = InitialStateProbabilityDistribution<2>(ispDistribution);
     
@@ -20,10 +20,12 @@ TEST (BaumWelchAlgorithmTests, Test) {
     }};
     StateEmissionProbabilityDistributionMatrix<2, 3> emissionDistribution = StateEmissionProbabilityDistributionMatrix<2, 3>(sepDistribution);
     
-    Model<2, 3> model = Model<2, 3>(transitionDistribution, emissionDistribution, initialDistribution);
-    std::array<int, 4> observations = {{ 0, 1, 2, 2 }};
+    std::array<std::string, 3> observations = {{ "R", "W", "B" }};
     
-    std::array<std::array<double, 4>, 2> alpha = forwardAlgorithm(model, observations);
+    Model<2, 3> model = Model<2, 3>(transitionDistribution, emissionDistribution, initialDistribution, observations);
+    std::array<std::string, 4> observationSequance = {{ "R", "W", "B", "B" }};
+    
+    std::array<std::array<double, 4>, 2> alpha = forwardAlgorithm(model, observationSequance);
     EXPECT_DOUBLE_EQ(0.24, alpha[0][0]);
     EXPECT_DOUBLE_EQ(0.08, alpha[1][0]);
     

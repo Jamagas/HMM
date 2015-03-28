@@ -6,12 +6,13 @@
 
 template<std::size_t modelNumberOfStates, std::size_t modelNumberOfObservations, std::size_t numberOfObservations>
 std::array<std::array<double, numberOfObservations>, modelNumberOfStates> forwardAlgorithm(Model<modelNumberOfStates, modelNumberOfObservations> model,
-                                                                                           std::array<int, numberOfObservations> observations) {
+                                                                                           std::array<std::string, numberOfObservations> observationSequence) {
     std::array<std::array<double, numberOfObservations>, modelNumberOfStates> alpha = {};
+    std::array<int, numberOfObservations> observationIndexes = model.getObservationIndexesForSequence(observationSequence);
     
     // Step 1
     int firtsObservationIndex = 0;
-    int firstObservation = observations[firtsObservationIndex];
+    int firstObservation = observationIndexes[firtsObservationIndex];
     for (int state = 0; state < modelNumberOfStates; state++) {
         alpha[state][firtsObservationIndex] = model.getInitialStateDistribution().getPropability(state) * model.getEmissionDistribution().getPropability(state, firstObservation);
     }
@@ -21,10 +22,10 @@ std::array<std::array<double, numberOfObservations>, modelNumberOfStates> forwar
         for (int state = 0; state < modelNumberOfStates; state++) {
             double sum = 0;
             for (int sumState = 0; sumState < modelNumberOfStates; sumState++) {
-                int previousObservation = observations[observationIndex - 1];
+                int previousObservation = observationIndexes[observationIndex - 1];
                 sum += alpha[sumState][previousObservation] * model.getTransitionDistribution().getPropability(sumState, state);
             }
-            int observation = observations[observationIndex];
+            int observation = observationIndexes[observationIndex];
             alpha[state][observationIndex] = sum * model.getEmissionDistribution().getPropability(state, observation);
         }
     }
