@@ -24,7 +24,7 @@ TEST (ModelTests, Init) {
     Model<2, 3> model = Model<2, 3>(transitionDistribution, emissionDistribution, initialDistribution, observations);
     EXPECT_EQ(2, model.getTransitionDistribution().getNumberOfStates());
     EXPECT_EQ(2, model.getEmissionDistribution().getNumberOfStates());
-    EXPECT_EQ(3, model.getEmissionDistribution().getNumberOfObservations());
+    EXPECT_EQ(3, model.getEmissionDistribution().getNumberOfObservationSymbols());
     EXPECT_EQ(2, model.getInitialStateDistribution().getNumberOfStates());
 }
 
@@ -49,7 +49,7 @@ TEST (ModelTests, GetObservationIndexes) {
     Model<2, 3> model = Model<2, 3>(transitionDistribution, emissionDistribution, initialDistribution, observations);
     
     std::array<std::string, 5> observationSequence = {{ "b", "a", "a", "c", "b" }};
-    std::array<int, 5> observationIndexes = model.getObservationIndexesForSequence(observationSequence);
+    std::array<int, 5> observationIndexes = model.getObservationSymbolsIndexes(observationSequence);
     EXPECT_EQ(1, observationIndexes[0]);
     EXPECT_EQ(0, observationIndexes[1]);
     EXPECT_EQ(0, observationIndexes[2]);

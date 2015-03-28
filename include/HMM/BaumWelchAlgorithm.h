@@ -4,28 +4,28 @@
 
 #include "Model.h"
 
-template<std::size_t modelNumberOfStates, std::size_t modelNumberOfObservations, std::size_t numberOfObservations>
-std::array<std::array<double, numberOfObservations>, modelNumberOfStates> forwardAlgorithm(Model<modelNumberOfStates, modelNumberOfObservations> model,
-                                                                                           std::array<std::string, numberOfObservations> observationSequence) {
-    std::array<std::array<double, numberOfObservations>, modelNumberOfStates> alpha = {};
-    std::array<int, numberOfObservations> observationIndexes = model.getObservationIndexesForSequence(observationSequence);
+template<std::size_t numberOfStates, std::size_t numberOfObservationSymbols, std::size_t numberOfObservations>
+std::array<std::array<double, numberOfObservations>, numberOfStates> forwardAlgorithm(Model<numberOfStates, numberOfObservationSymbols> model,
+                                                                                      std::array<std::string, numberOfObservations> observationSymbolsSequence) {
+    std::array<std::array<double, numberOfObservations>, numberOfStates> alpha = {};
+    std::array<int, numberOfObservations> observationSymbolsIndexes = model.getObservationSymbolsIndexes(observationSymbolsSequence);
     
     // Step 1
-    int firtsObservationIndex = 0;
-    int firstObservation = observationIndexes[firtsObservationIndex];
-    for (int state = 0; state < modelNumberOfStates; state++) {
-        alpha[state][firtsObservationIndex] = model.getInitialStateDistribution().getPropability(state) * model.getEmissionDistribution().getPropability(state, firstObservation);
+    int firstObservationIndex = 0;
+    int firstObservationSymbolIndex = observationSymbolsIndexes[firstObservationIndex];
+    for (int stateIndex = 0; stateIndex < numberOfStates; stateIndex++) {
+        alpha[stateIndex][firstObservationIndex] = model.getInitialStateDistribution().getPropability(stateIndex) * model.getEmissionDistribution().getPropability(stateIndex, firstObservationSymbolIndex);
     }
     
     // Step 2
     for (int observationIndex = 1; observationIndex < numberOfObservations; observationIndex++) {
-        for (int state = 0; state < modelNumberOfStates; state++) {
+        for (int stateIndex = 0; stateIndex < numberOfStates; stateIndex++) {
             double sum = 0;
-            for (int sumState = 0; sumState < modelNumberOfStates; sumState++) {
-                sum += alpha[sumState][observationIndex - 1] * model.getTransitionDistribution().getPropability(sumState, state);
+            for (int sumStateIndex = 0; sumStateIndex < numberOfStates; sumStateIndex++) {
+                sum += alpha[sumStateIndex][observationIndex - 1] * model.getTransitionDistribution().getPropability(sumStateIndex, stateIndex);
             }
-            int observation = observationIndexes[observationIndex];
-            alpha[state][observationIndex] = sum * model.getEmissionDistribution().getPropability(state, observation);
+            int observationSymbolIndex = observationSymbolsIndexes[observationIndex];
+            alpha[stateIndex][observationIndex] = sum * model.getEmissionDistribution().getPropability(stateIndex, observationSymbolIndex);
         }
     }
     
@@ -34,27 +34,29 @@ std::array<std::array<double, numberOfObservations>, modelNumberOfStates> forwar
     return alpha;
 }
 
-template<std::size_t modelNumberOfStates, std::size_t modelNumberOfObservations, std::size_t numberOfObservations>
-std::array<std::array<double, numberOfObservations>, modelNumberOfStates> backwardAlgorithm(Model<modelNumberOfStates, modelNumberOfObservations> model,
-                                                                                            std::array<std::string, numberOfObservations> observationSequence) {
-    std::array<std::array<double, numberOfObservations>, modelNumberOfStates> beta = {};
-    std::array<int, numberOfObservations> observationIndexes = model.getObservationIndexesForSequence(observationSequence);
+template<std::size_t numberOfStates, std::size_t numberOfObservationSymbols, std::size_t numberOfObservations>
+std::array<std::array<double, numberOfObservations>, numberOfStates> backwardAlgorithm(Model<numberOfStates, numberOfObservationSymbols> model,
+                                                                                       std::array<std::string, numberOfObservations> observationSymbolsSequence) {
+    std::array<std::array<double, numberOfObservations>, numberOfStates> beta = {};
+    std::array<int, numberOfObservations> observationIndexes = model.getObservationSymbolsIndexes(observationSymbolsSequence);
     
     // Step 1
     int lastObservationIndex = numberOfObservations - 1;
-    for (int state = 0; state < modelNumberOfStates; state++) {
-        beta[state][lastObservationIndex] = 1.0;
+    for (int stateIndex = 0; stateIndex < numberOfStates; stateIndex++) {
+        beta[stateIndex][lastObservationIndex] = 1.0;
     }
     
     // Step 2
     for (int observationIndex = lastObservationIndex - 1; observationIndex >= 0; observationIndex--) {
-        for (int state = 0; state < modelNumberOfStates; state++) {
+        for (int stateIndex = 0; stateIndex < numberOfStates; stateIndex++) {
             double sum = 0;
-            for (int sumState = 0; sumState < modelNumberOfStates; sumState++) {
-                int nextObservation = observationIndexes[observationIndex + 1];
-                sum += model.getTransitionDistribution().getPropability(state, sumState) * model.getEmissionDistribution().getPropability(sumState, nextObservation) * beta[sumState][observationIndex + 1];
+            for (int sumStateIndex = 0; sumStateIndex < numberOfStates; sumStateIndex++) {
+                int nextObservationSymbolIndex = observationIndexes[observationIndex + 1];
+                sum += model.getTransitionDistribution().getPropability(stateIndex, sumStateIndex) *
+                        model.getEmissionDistribution().getPropability(sumStateIndex, nextObservationSymbolIndex) *
+                        beta[sumStateIndex][observationIndex + 1];
             }
-            beta[state][observationIndex] = sum;
+            beta[stateIndex][observationIndex] = sum;
         }
     }
     

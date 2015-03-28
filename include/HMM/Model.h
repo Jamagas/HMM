@@ -8,24 +8,24 @@
 #include "StateEmissionProbabilityDistributionMatrix.h"
 #include "InitialStateProbabilityDistribution.h"
 
-template<std::size_t numberOfStates, std::size_t numberOfObservations>
+template<std::size_t numberOfStates, std::size_t numberOfObservationSymbols>
 class Model {
     
 private:
     
     StateTransitionProbabilityDistributionMatrix<numberOfStates> transitionDistribution;
-    StateEmissionProbabilityDistributionMatrix<numberOfStates, numberOfObservations> emissionDistribution;
+    StateEmissionProbabilityDistributionMatrix<numberOfStates, numberOfObservationSymbols> emissionDistribution;
     InitialStateProbabilityDistribution<numberOfStates> initialStateDistribution;
-    std::array<std::string, numberOfObservations> observations;
+    std::array<std::string, numberOfObservationSymbols> observationSymbols;
     
     Model() { }
     
 public:
     
     Model(const StateTransitionProbabilityDistributionMatrix<numberOfStates> &transitionDistribution,
-          const StateEmissionProbabilityDistributionMatrix<numberOfStates, numberOfObservations> &emissionDistribution,
+          const StateEmissionProbabilityDistributionMatrix<numberOfStates, numberOfObservationSymbols> &emissionDistribution,
           const InitialStateProbabilityDistribution<numberOfStates> &initialStateDistribution,
-          const std::array<std::string, numberOfObservations> &observations) :
+          const std::array<std::string, numberOfObservationSymbols> &observationSymbols) :
     
     transitionDistribution(transitionDistribution),
     emissionDistribution(emissionDistribution),
@@ -33,14 +33,14 @@ public:
         this->transitionDistribution = transitionDistribution;
         this->emissionDistribution = emissionDistribution;
         this->initialStateDistribution = initialStateDistribution;
-        this->observations = observations;
+        this->observationSymbols = observationSymbols;
     }
     
     StateTransitionProbabilityDistributionMatrix<numberOfStates> getTransitionDistribution() {
         return this->transitionDistribution;
     }
     
-    StateEmissionProbabilityDistributionMatrix<numberOfStates, numberOfObservations> getEmissionDistribution() {
+    StateEmissionProbabilityDistributionMatrix<numberOfStates, numberOfObservationSymbols> getEmissionDistribution() {
         return this->emissionDistribution;
     }
     
@@ -48,23 +48,23 @@ public:
         return this->initialStateDistribution;
     }
     
-    std::array<std::string, numberOfObservations> getObservations() {
-        return this->observations;
+    std::array<std::string, numberOfObservationSymbols> getObservationSymbols() {
+        return this->observationSymbols;
     }
     
-    template<std::size_t numberOfObservationsInSequence>
-    std::array<int, numberOfObservationsInSequence> getObservationIndexesForSequence(std::array<std::string, numberOfObservationsInSequence> observationSequence) {
-        std::array<int, numberOfObservationsInSequence> observationIndexesArray = {};
-        observationIndexesArray.fill(-1);
-        for (int i = 0; i < numberOfObservationsInSequence; i++) {
-            for (int observation = 0; observation < numberOfObservations; observation++) {
-                if (observations[observation].compare(observationSequence[i]) == 0) {
-                    observationIndexesArray[i] = observation;
+    template<std::size_t numberOfObservationSymbolsInSequence>
+    std::array<int, numberOfObservationSymbolsInSequence> getObservationSymbolsIndexes(std::array<std::string, numberOfObservationSymbolsInSequence> observationSymbolsSequence) {
+        std::array<int, numberOfObservationSymbolsInSequence> observationSymbolsIndexesArray = {};
+        observationSymbolsIndexesArray.fill(-1);
+        for (int observationSymbolIndexInSequence = 0; observationSymbolIndexInSequence < numberOfObservationSymbolsInSequence; observationSymbolIndexInSequence++) {
+            for (int observationSymbolIndex = 0; observationSymbolIndex < numberOfObservationSymbols; observationSymbolIndex++) {
+                if (observationSymbols[observationSymbolIndex].compare(observationSymbolsSequence[observationSymbolIndexInSequence]) == 0) {
+                    observationSymbolsIndexesArray[observationSymbolIndexInSequence] = observationSymbolIndex;
                     break;
                 }
             }
         }
-        return observationIndexesArray;
+        return observationSymbolsIndexesArray;
     }
 };
 

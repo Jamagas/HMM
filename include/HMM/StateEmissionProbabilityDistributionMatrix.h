@@ -5,18 +5,18 @@
 #include <array>
 #include <assert.h>
 
-template<std::size_t numberOfStates, std::size_t numberOfObservations>
+template<std::size_t numberOfStates, std::size_t numberOfObservationSymbols>
 class StateEmissionProbabilityDistributionMatrix {
     
 private:
     
-    std::array<std::array<double, numberOfObservations>, numberOfStates> propabilityDistributionMatrix;
+    std::array<std::array<double, numberOfObservationSymbols>, numberOfStates> propabilityDistributionMatrix;
     
     StateEmissionProbabilityDistributionMatrix() { }
     
 public:
     
-    StateEmissionProbabilityDistributionMatrix(const std::array<std::array<double, numberOfObservations>, numberOfStates> &propabilityDistributionMatrix) {
+    StateEmissionProbabilityDistributionMatrix(const std::array<std::array<double, numberOfObservationSymbols>, numberOfStates> &propabilityDistributionMatrix) {
         this->propabilityDistributionMatrix = propabilityDistributionMatrix;
     }
     
@@ -24,7 +24,7 @@ public:
         return this->propabilityDistributionMatrix.size();
     }
     
-    std::size_t getNumberOfObservations() {
+    std::size_t getNumberOfObservationSymbols() {
         if (this->propabilityDistributionMatrix.empty()) {
             return 0;
         } else {
@@ -32,10 +32,10 @@ public:
         }
     }
     
-    double getPropability(int state, int observation) {
-        assert(state >= 0 && state < getNumberOfStates() &&
-               observation >= 0 && observation < getNumberOfObservations());
-        return this->propabilityDistributionMatrix[state][observation];
+    double getPropability(int stateIndex, int observationSymbolIndex) {
+        assert(stateIndex >= 0 && stateIndex < getNumberOfStates() &&
+               observationSymbolIndex >= 0 && observationSymbolIndex < getNumberOfObservationSymbols());
+        return this->propabilityDistributionMatrix[stateIndex][observationSymbolIndex];
     }
     
 };
