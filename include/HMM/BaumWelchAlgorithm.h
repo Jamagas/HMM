@@ -22,8 +22,7 @@ std::array<std::array<double, numberOfObservations>, modelNumberOfStates> forwar
         for (int state = 0; state < modelNumberOfStates; state++) {
             double sum = 0;
             for (int sumState = 0; sumState < modelNumberOfStates; sumState++) {
-                int previousObservation = observationIndexes[observationIndex - 1];
-                sum += alpha[sumState][previousObservation] * model.getTransitionDistribution().getPropability(sumState, state);
+                sum += alpha[sumState][observationIndex - 1] * model.getTransitionDistribution().getPropability(sumState, state);
             }
             int observation = observationIndexes[observationIndex];
             alpha[state][observationIndex] = sum * model.getEmissionDistribution().getPropability(state, observation);
