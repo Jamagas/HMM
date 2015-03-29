@@ -35,6 +35,17 @@ std::array<std::array<double, numberOfObservations>, numberOfStates> forwardAlgo
 }
 
 template<std::size_t numberOfStates, std::size_t numberOfObservationSymbols, std::size_t numberOfObservations>
+double forwardAlgorithmTermination(Model<numberOfStates, numberOfObservationSymbols> model,
+                                   std::array<std::array<double, numberOfObservations>, numberOfStates> alpha) {
+    double sum = 0;
+    int lastObservationIndex = numberOfObservations - 1;
+    for (int stateIndex = 0; stateIndex < numberOfStates; stateIndex++) {
+        sum += alpha[stateIndex][lastObservationIndex];
+    }
+    return sum;
+}
+
+template<std::size_t numberOfStates, std::size_t numberOfObservationSymbols, std::size_t numberOfObservations>
 std::array<std::array<double, numberOfObservations>, numberOfStates> backwardAlgorithm(Model<numberOfStates, numberOfObservationSymbols> model,
                                                                                        std::array<std::string, numberOfObservations> observationSymbolsSequence) {
     std::array<std::array<double, numberOfObservations>, numberOfStates> beta = {};
@@ -61,6 +72,17 @@ std::array<std::array<double, numberOfObservations>, numberOfStates> backwardAlg
     }
     
     return beta;
+}
+
+template<std::size_t numberOfStates, std::size_t numberOfObservationSymbols, std::size_t numberOfObservations>
+double backwardAlgorithmTermination(Model<numberOfStates, numberOfObservationSymbols> model,
+                                    std::array<std::array<double, numberOfObservations>, numberOfStates> beta) {
+    double sum = 0;
+    int firstObservationIndex = 0;
+    for (int stateIndex = 0; stateIndex < numberOfStates; stateIndex++) {
+        sum += model.getInitialStateDistribution().getPropability(stateIndex) * beta[stateIndex][firstObservationIndex] * model.getEmissionDistribution().getPropability(stateIndex, firstObservationIndex);
+    }
+    return sum;
 }
 
 #endif
