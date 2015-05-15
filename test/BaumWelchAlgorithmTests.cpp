@@ -25,7 +25,7 @@ TEST (BaumWelchAlgorithmTests, ForwardAlgorithm_1) {
     Model<2, 3> model = Model<2, 3>(transitionDistribution, emissionDistribution, initialDistribution, observations);
     std::array<std::string, 4> observationSequance = {{ "R", "W", "B", "B" }};
     
-    std::array<std::array<double, 4>, 2> alpha = forwardAlgorithm(model, observationSequance);
+    std::array<std::array<double, 4>, 2> alpha = forwardAlgorithmMatrix(model, observationSequance);
     EXPECT_DOUBLE_EQ(0.24, alpha[0][0]);
     EXPECT_DOUBLE_EQ(0.08, alpha[1][0]);
     
@@ -63,7 +63,7 @@ TEST (BaumWelchAlgorithmTests, ForwardAlgorithm_2) {
     Model<3, 3> model = Model<3, 3>(transitionDistribution, emissionDistribution, initialDistribution, observations);
     std::array<std::string, 3> observationSequance = {{ "R", "G", "B" }};
     
-    std::array<std::array<double, 3>, 3> alpha = forwardAlgorithm(model, observationSequance);
+    std::array<std::array<double, 3>, 3> alpha = forwardAlgorithmMatrix(model, observationSequance);
     EXPECT_NEAR(0.125, alpha[0][0], 0.00005);
     EXPECT_NEAR(0.05, alpha[1][0], 0.00005);
     EXPECT_NEAR(0.1125, alpha[2][0], 0.00005);
@@ -99,7 +99,7 @@ TEST (BaumWelchAlgorithmTests, BackwardAlgorithm_1) {
     Model<2, 3> model = Model<2, 3>(transitionDistribution, emissionDistribution, initialDistribution, observations);
     std::array<std::string, 4> observationSequance = {{ "R", "W", "B", "B" }};
     
-    std::array<std::array<double, 4>, 2> beta = backwardAlgorithm(model, observationSequance);
+    std::array<std::array<double, 4>, 2> beta = backwardAlgorithmMatrix(model, observationSequance);
     EXPECT_DOUBLE_EQ(0.0324, beta[0][0]);
     EXPECT_DOUBLE_EQ(0.0297, beta[1][0]);
     
@@ -137,7 +137,7 @@ TEST (BaumWelchAlgorithmTests, BackwardAlgorithm_2) {
     Model<3, 3> model = Model<3, 3>(transitionDistribution, emissionDistribution, initialDistribution, observations);
     std::array<std::string, 3> observationSequance = {{ "R", "G", "B" }};
     
-    std::array<std::array<double, 3>, 3> beta = backwardAlgorithm(model, observationSequance);
+    std::array<std::array<double, 3>, 3> beta = backwardAlgorithmMatrix(model, observationSequance);
     EXPECT_NEAR(0.12, beta[0][0], 0.00005);
     EXPECT_NEAR(0.1125, beta[1][0], 0.00005);
     EXPECT_NEAR(0.0788, beta[2][0], 0.00005);
@@ -172,8 +172,8 @@ TEST(BaumWelchAlgorithmTests, ForwardBackwardArriveAtSameValue_1) {
     Model<2, 3> model = Model<2, 3>(transitionDistribution, emissionDistribution, initialDistribution, observations);
     std::array<std::string, 4> observationSequance = {{ "R", "W", "B", "B" }};
     
-    std::array<std::array<double, 4>, 2> alpha = forwardAlgorithm(model, observationSequance);
-    std::array<std::array<double, 4>, 2> beta = backwardAlgorithm(model, observationSequance);
+    std::array<std::array<double, 4>, 2> alpha = forwardAlgorithmMatrix(model, observationSequance);
+    std::array<std::array<double, 4>, 2> beta = backwardAlgorithmMatrix(model, observationSequance);
     
     EXPECT_TRUE(forwardAlgorithmTermination(model, alpha) > 0);
     EXPECT_TRUE(backwardAlgorithmTermination(model, beta) > 0);
@@ -203,8 +203,8 @@ TEST(BaumWelchAlgorithmTests, ForwardBackwardArriveAtSameValue_2) {
     Model<3, 3> model = Model<3, 3>(transitionDistribution, emissionDistribution, initialDistribution, observations);
     std::array<std::string, 3> observationSequance = {{ "R", "G", "B" }};
     
-    std::array<std::array<double, 3>, 3> alpha = forwardAlgorithm(model, observationSequance);
-    std::array<std::array<double, 3>, 3> beta = backwardAlgorithm(model, observationSequance);
+    std::array<std::array<double, 3>, 3> alpha = forwardAlgorithmMatrix(model, observationSequance);
+    std::array<std::array<double, 3>, 3> beta = backwardAlgorithmMatrix(model, observationSequance);
     
     EXPECT_TRUE(forwardAlgorithmTermination(model, alpha) > 0);
     EXPECT_TRUE(backwardAlgorithmTermination(model, beta) > 0);

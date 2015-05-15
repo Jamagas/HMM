@@ -5,8 +5,8 @@
 #include "Model.h"
 
 template<std::size_t numberOfStates, std::size_t numberOfObservationSymbols, std::size_t numberOfObservations>
-std::array<std::array<double, numberOfObservations>, numberOfStates> forwardAlgorithm(Model<numberOfStates, numberOfObservationSymbols> model,
-                                                                                      std::array<std::string, numberOfObservations> observationSymbolsSequence) {
+std::array<std::array<double, numberOfObservations>, numberOfStates> forwardAlgorithmMatrix(Model<numberOfStates, numberOfObservationSymbols> model,
+                                                                                            std::array<std::string, numberOfObservations> observationSymbolsSequence) {
     std::array<std::array<double, numberOfObservations>, numberOfStates> alpha = {};
     std::array<int, numberOfObservations> observationSymbolsIndexes = model.getObservationSymbolsIndexes(observationSymbolsSequence);
     
@@ -46,8 +46,8 @@ double forwardAlgorithmTermination(Model<numberOfStates, numberOfObservationSymb
 }
 
 template<std::size_t numberOfStates, std::size_t numberOfObservationSymbols, std::size_t numberOfObservations>
-std::array<std::array<double, numberOfObservations>, numberOfStates> backwardAlgorithm(Model<numberOfStates, numberOfObservationSymbols> model,
-                                                                                       std::array<std::string, numberOfObservations> observationSymbolsSequence) {
+std::array<std::array<double, numberOfObservations>, numberOfStates> backwardAlgorithmMatrix(Model<numberOfStates, numberOfObservationSymbols> model,
+                                                                                             std::array<std::string, numberOfObservations> observationSymbolsSequence) {
     std::array<std::array<double, numberOfObservations>, numberOfStates> beta = {};
     std::array<int, numberOfObservations> observationIndexes = model.getObservationSymbolsIndexes(observationSymbolsSequence);
     
