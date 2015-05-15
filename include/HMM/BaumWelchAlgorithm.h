@@ -4,6 +4,14 @@
 
 #include "Model.h"
 
+/**
+ * @brief Forward algorithm implementation returning `alpha` matrix.
+ *
+ * @param model HMM model.
+ * @param observationSymbolsSequence Sequence of observation symbols.
+ *
+ * @return Alpha values matrix.
+ */
 template<std::size_t numberOfStates, std::size_t numberOfObservationSymbols, std::size_t numberOfObservations>
 std::array<std::array<double, numberOfObservations>, numberOfStates> forwardAlgorithmMatrix(Model<numberOfStates, numberOfObservationSymbols> model,
                                                                                             std::array<std::string, numberOfObservations> observationSymbolsSequence) {
@@ -45,6 +53,14 @@ double forwardAlgorithmTermination(Model<numberOfStates, numberOfObservationSymb
     return sum;
 }
 
+/**
+ * @brief Backward algorithm implementation returning `beta` matrix.
+ *
+ * @param model HMM model.
+ * @param observationSymbolsSequence Sequence of observation symbols.
+ *
+ * @return Beta values matrix.
+ */
 template<std::size_t numberOfStates, std::size_t numberOfObservationSymbols, std::size_t numberOfObservations>
 std::array<std::array<double, numberOfObservations>, numberOfStates> backwardAlgorithmMatrix(Model<numberOfStates, numberOfObservationSymbols> model,
                                                                                              std::array<std::string, numberOfObservations> observationSymbolsSequence) {
